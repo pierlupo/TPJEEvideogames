@@ -1,10 +1,9 @@
 package com.example.entity;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.hibernate.annotations.Entity;
-
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +11,8 @@ import java.util.List;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Game {
 
     @Id
@@ -29,28 +30,13 @@ public class Game {
 
     private int stock;
 
-    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "game")
     List<Comment> comments;
 
 
-    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "game")
     private List<Image> images;
 
-    public Game() {
-    }
 
-    public Game(String title, String category, Date releaseDate, double price, int stock, List<Comment> comments, List<Image> images) {
-        this.title = title;
-        this.category = category;
-        this.releaseDate = releaseDate;
-        this.price = price;
-        this.stock = stock;
-        this.comments = comments;
-        this.images = images;
-    }
 
-    public Game(int id, String title, String category, Date releaseDate, double price, int stock, List<Comment> comments, List<Image> images) {
-        this(title,category,releaseDate,price,stock,comments,images);
-        this.id = id;
-    }
 }

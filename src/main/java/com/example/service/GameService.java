@@ -19,27 +19,48 @@ public class GameService {
         _sessionFactory = sessionFactory;
     }
 
-    public boolean createGame (String title, String category, Date releaseDate, double price, int stock, List<Comment> comments, List<Image> images){
-        boolean result = false;
-        session = _sessionFactory.openSession();
-        session.beginTransaction();
-        gameRepository = new GameRepository(session);
-        Game game = Game.builder().title(title).category(category).releaseDate(releaseDate).price(price).stock(stock).comments(comments).images(images).build();
+//    public boolean createGame (String title, String category, Date releaseDate, double price, int stock, List<Comment> comments, List<Image> images){
+//        boolean result = false;
+//        session = _sessionFactory.openSession();
+//        session.beginTransaction();
+//        gameRepository = new GameRepository(session);
+//        Game game = Game.builder().title(title).category(category).releaseDate(releaseDate).price(price).stock(stock).comments(comments).images(images).build();
+//        try{
+//            gameRepository.create(game);
+//            session.getTransaction().commit();
+//            result = true;
+//        }catch (Exception e){
+//            try{
+//                session.getTransaction().rollback();
+//            }catch (Exception except){
+//                System.out.println(except.getMessage());
+//            }
+//        }finally {
+//            session.close();
+//        }
+//        return result;
+//    }
+public boolean createGame (String title, String category, Date releaseDate){
+    boolean result = false;
+    session = _sessionFactory.openSession();
+    session.beginTransaction();
+    gameRepository = new GameRepository(session);
+    Game game = Game.builder().title(title).category(category).releaseDate(releaseDate).build();
+    try{
+        gameRepository.create(game);
+        session.getTransaction().commit();
+        result = true;
+    }catch (Exception e){
         try{
-            gameRepository.create(game);
-            session.getTransaction().commit();
-            result = true;
-        }catch (Exception e){
-            try{
-                session.getTransaction().rollback();
-            }catch (Exception except){
-                System.out.println(except.getMessage());
-            }
-        }finally {
-            session.close();
+            session.getTransaction().rollback();
+        }catch (Exception except){
+            System.out.println(except.getMessage());
         }
-        return result;
+    }finally {
+        session.close();
     }
+    return result;
+}
 
     public Game getGameById (int id){
         Game game = null ;

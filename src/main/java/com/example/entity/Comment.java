@@ -1,11 +1,17 @@
 package com.example.entity;
 
-import lombok.Data;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Comment {
 
     @Id
@@ -17,6 +23,4 @@ public class Comment {
     @ManyToOne
     private Game game;
 
-    public Comment() {
-    }
 }
